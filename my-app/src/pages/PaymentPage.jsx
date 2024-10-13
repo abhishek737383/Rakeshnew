@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { createOrder } from '../api/OrderService'; // Import your order creation function
 import '../styles/PaymentPage.css';
 
-const BASE_URL = 'http://localhost:5000'; // Define your base URL here
+const BASE_URL = 'https://newsite-1caa.onrender.com'; // Define your base URL here
 
 const PaymentPage = () => {
   const navigate = useNavigate();

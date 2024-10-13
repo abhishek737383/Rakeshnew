@@ -42,7 +42,7 @@ const FrontendSlider = () => {
             {sliderImages.map((slider) => (
               <div key={slider._id} className="slider-item">
                 <img
-                  src={`http://localhost:5000${slider.imageUrl}`}
+                  src={`https://newsite-1caa.onrender.com${slider.imageUrl}`}
                   alt="Slider"
                   className="slider-image"
                 />

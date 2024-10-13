@@ -1,6 +1,6 @@
 // src/api/CartService.js
 
-const API_BASE_URL = 'http://localhost:5000/api'; // Update with your backend API URL
+const API_BASE_URL = 'https://newsite-1caa.onrender.com/api'; // Update with your backend API URL
 
 export const addItemToCart = async (item) => {
   const response = await fetch(`${API_BASE_URL}/cart/add`, {

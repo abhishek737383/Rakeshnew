@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/orders'; // Base URL for order-related endpoints
+const API_URL = 'https://newsite-1caa.onrender.com/api/orders'; // Base URL for order-related endpoints
 
 // Create a new order
 export const createOrder = async (orderData) => {

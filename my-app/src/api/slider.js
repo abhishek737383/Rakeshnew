@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/slider';
+const API_URL = 'https://newsite-1caa.onrender.com/api/slider';
 
 export const uploadSliderImage = async (imageFile) => {
   const formData = new FormData();

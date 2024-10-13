@@ -1,7 +1,7 @@
 // src/api/PaymentService.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/payments'; // Update with your backend URL
+const API_URL = 'https://newsite-1caa.onrender.com/api/payments'; // Update with your backend URL
 
 // Function to submit payment details
 export const submitPaymentDetails = async (formData) => {

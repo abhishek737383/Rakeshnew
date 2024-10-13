@@ -3,7 +3,7 @@ import { fetchBillDetails, uploadBillDetails } from '../../api/BillService';
 import { fetchPayments, deletePayment } from '../../api/PaymentService';
 import '../adminStyle/Adminbill.css'; // Import CSS file for styling
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'https://newsite-1caa.onrender.com';
 
 const AdminBillPage = () => {
   const [billDetails, setBillDetails] = useState({ upiId: '', qrCode: '' });
