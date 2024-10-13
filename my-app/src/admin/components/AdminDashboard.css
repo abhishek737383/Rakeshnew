@@ -1,0 +1,16 @@
+/* AdminDashboard.css */
+.wrapper {
+  min-height: 100vh;
+}
+
+.main-header {
+  background-color: #343a40;
+}
+
+.main-sidebar {
+  background-color: #343a40;
+}
+
+.content-wrapper {
+  background-color: #f4f6f9;
+}

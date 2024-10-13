@@ -1,0 +1,118 @@
+/* Premium styling for login container */
+.admin-login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #ffffff; /* Clean white background */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* Enhanced shadow for premium feel */
+  border-radius: 12px; /* Larger border-radius for smoother edges */
+  text-align: center;
+  transition: transform 0.3s ease; /* Smooth animation */
+}
+
+.admin-login-container:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover for a dynamic feel */
+}
+
+.admin-login-container h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem; /* Slightly larger for modern look */
+  font-weight: 700; /* Bolder heading for emphasis */
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase; /* Premium uppercase style */
+}
+
+/* Styling for input fields */
+.admin-login-container input {
+  width: 100%;
+  padding: 0.9rem;
+  margin: 0.75rem 0;
+  border-radius: 10px; /* Larger, smoother corners */
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  background-color: #f9f9f9; /* Light background for inputs */
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.05); /* Soft inner shadow */
+  transition: all 0.3s ease;
+}
+
+.admin-login-container input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3); /* Glowing focus effect */
+  background-color: #ffffff; /* Bright background on focus */
+}
+
+/* Premium Button Styling */
+.admin-login-container button {
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 1.5rem;
+  background-color: #007bff;
+  background-image: linear-gradient(145deg, #007bff, #0056b3); /* Gradient background for depth */
+  color: white;
+  font-size: 1.2rem; /* Larger font for premium feel */
+  font-weight: 600;
+  border: none;
+  border-radius: 10px; /* Smooth, modern look */
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4); /* Soft shadow for 3D effect */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-login-container button:hover {
+  background-color: #0056b3;
+  background-image: linear-gradient(145deg, #0056b3, #004080); /* Darker gradient on hover */
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6); /* Elevated shadow on hover */
+}
+
+/* Error message styling */
+.admin-login-container .error {
+  color: #d9534f;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive styling for mobile views */
+@media (max-width: 768px) {
+  .admin-login-container {
+    padding: 1.5rem;
+    max-width: 350px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1); /* Softer shadow for smaller screens */
+  }
+
+  .admin-login-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .admin-login-container input {
+    padding: 0.75rem;
+  }
+
+  .admin-login-container button {
+    padding: 0.75rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-login-container {
+    padding: 1rem;
+    max-width: 100%; /* Full-width for very small screens */
+    box-shadow: none; /* Remove shadow on small screens for a flatter look */
+  }
+
+  .admin-login-container h2 {
+    font-size: 1.4rem;
+  }
+
+  .admin-login-container input {
+    padding: 0.65rem;
+    font-size: 0.95rem;
+  }
+
+  .admin-login-container button {
+    padding: 0.65rem;
+    font-size: 1rem;
+  }
+}
