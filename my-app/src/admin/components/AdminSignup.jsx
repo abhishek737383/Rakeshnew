@@ -10,7 +10,7 @@ const AdminSignup = ({ setIsAdminSignedUp }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/admin/signup', {
+      const response = await fetch('https://newsite-1caa.onrender.com/api/admin/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

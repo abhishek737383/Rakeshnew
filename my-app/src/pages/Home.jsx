@@ -36,7 +36,7 @@ const Home = () => {
         </Typography>
 
         <div className="get-app-container">
-     <a href="/path/to/your.apk" download>
+     <a href="/public/apk/your.apk" download>
       <Button
       variant="contained"
       className="get-app-button"
