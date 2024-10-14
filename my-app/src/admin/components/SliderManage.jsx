@@ -48,7 +48,7 @@ const SliderManage = () => {
       <div className="images-grid">
         {sliderImages.map((slider) => (
           <div className="image-card" key={slider._id}>
-            <img src={`http://localhost:5000${slider.imageUrl}`} alt="Slider" />
+            <img src={`https://newsite-1caa.onrender.com${slider.imageUrl}`} alt="Slider" />
             <button className="delete-button" onClick={() => handleDeleteImage(slider._id)}>X</button>
           </div>
         ))}

@@ -1,4 +1,4 @@
-/* Global reset */
+/* Global reset
 * {
     margin: 0;
     padding: 0;
@@ -6,9 +6,9 @@
   }
   
   /* Layout styling */
-  .admin-layout {
+  /* .admin-layout {
     display: flex;
     height: 100vh;
     overflow: hidden;
   }
-  
+   */

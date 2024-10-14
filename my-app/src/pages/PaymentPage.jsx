@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext';
 import { submitPaymentDetails } from '../api/PaymentService';
 import { fetchBillDetails } from '../api/BillService';
 import { useAuth } from '../context/AuthContext';
-import { createOrder } from '../api/OrderService'; // Import your order creation function
+import { createOrder } from '../api/OrderService';
 import '../styles/PaymentPage.css';
 
 const BASE_URL = 'https://newsite-1caa.onrender.com'; // Define your base URL here
@@ -23,34 +23,57 @@ const PaymentPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [upiId, setUpiId] = useState('');
   const [qrCodeImageUrl, setQrCodeImageUrl] = useState('');
+  const [loadingBillDetails, setLoadingBillDetails] = useState(true); // State for loading bill details
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top when the page is loaded
 
     const loadBillDetails = async () => {
       try {
+        setLoadingBillDetails(true); // Set loading state to true
+        console.log('Fetching bill details...');
+    
         const details = await fetchBillDetails();
+        console.log('Bill details fetched:', details);
+    
         if (Array.isArray(details) && details.length > 0) {
           const firstBill = details[0];
-          if (firstBill.upiId && firstBill.qrCode) {
+          console.log('First bill:', firstBill);
+    
+          if (firstBill.upiId) {
             setUpiId(firstBill.upiId);
+            console.log('UPI ID set:', firstBill.upiId);
     
-            // Generate QR code URL based on the backend path
-            const qrCodeUrl = firstBill.qrCode.includes('\\')
-              ? `${BASE_URL}/uploads/payment/${firstBill.qrCode.split('\\').pop()}`
-              : `${BASE_URL}${firstBill.qrCode}`;
-    
-            setQrCodeImageUrl(qrCodeUrl);
+            if (firstBill.qrCode) {
+              // Generate QR code URL based on the backend path
+              const qrCodeUrl = firstBill.qrCode.includes('\\')
+                ? `${BASE_URL}/uploads/payment/${firstBill.qrCode.split('\\').pop()}`
+                : `${BASE_URL}${firstBill.qrCode}`;
+                
+              console.log('QR code URL:', qrCodeUrl);
+              setQrCodeImageUrl(qrCodeUrl);
+            } else {
+              console.warn('QR code is missing, but proceeding with UPI ID.');
+              // Optionally set a placeholder image or take other action
+              setQrCodeImageUrl(null); // Or set a default image URL if you prefer
+            }
           } else {
-            alert('Failed to load bill details. Please try again.');
+            console.error('Missing UPI ID in bill details:', firstBill);
+            alert('Failed to load UPI ID. Please try again.');
           }
         } else {
+          console.warn('No bill details found:', details);
           alert('No bill details found. Please try again.');
         }
       } catch (error) {
+        console.error('Error fetching bill details:', error);
         alert('Error fetching bill details. Please try again.');
+      } finally {
+        setLoadingBillDetails(false); // Set loading state to false
       }
     };
+    
+    
     
     loadBillDetails();
   }, []);
@@ -155,10 +178,12 @@ const PaymentPage = () => {
         ) : (
           <p>Loading UPI ID...</p>
         )}
-        {qrCodeImageUrl ? (
+        {loadingBillDetails ? ( // Show loading state for QR Code
+          <p>Loading QR Code...</p>
+        ) : qrCodeImageUrl ? (
           <img src={qrCodeImageUrl} alt="QR Code" className="qr-code" />
         ) : (
-          <p>Loading QR Code...</p>
+          <p>No QR Code available.</p>
         )}
       </div>
 
@@ -201,7 +226,7 @@ const PaymentPage = () => {
       {/* Step 4: Confirmation */}
       <div className="confirmation-section">
         <h2>Step 4: Confirmation</h2>
-        <p>Once the payment is verified, your order will be processed </p>
+        <p>Once the payment is verified, your order will be processed.</p>
       </div>
 
       {/* Display User Information */}
@@ -213,4 +238,4 @@ const PaymentPage = () => {
   );
 };
 
-export default PaymentPage; 
+export default PaymentPage;
