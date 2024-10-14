@@ -15,12 +15,18 @@ exports.getBillDetails = async (req, res) => {
 exports.uploadBillDetails = async (req, res) => {
   try {
     const { upiId } = req.body;
-    const qrCode = req.file.path; // Multer saves the file to this path
+    const qrCode = req.file ? `/uploads/payment/${req.file.filename}` : null; // Use relative path
 
-    const bill = await Bill.findOneAndUpdate({}, { upiId, qrCode }, { new: true, upsert: true });
-    res.status(200).json(bill);
+    // Update or create bill details with UPI ID and QR code
+    const bill = await Bill.findOneAndUpdate(
+      {}, // Assuming you're updating the first or only record
+      { upiId, qrCode },
+      { new: true, upsert: true } // `upsert: true` will create a new record if none exists
+    );
+
+    res.status(200).json(bill); // Return the updated or created bill document
   } catch (error) {
-    console.error(error); // Added error logging for better debugging
-    res.status(500).json({ message: 'Error uploading bill details' });
+    console.error('Error uploading bill details:', error);
+    res.status(500).json({ message: 'Error uploading bill details', error: error.message });
   }
 };
