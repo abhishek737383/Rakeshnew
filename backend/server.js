@@ -19,7 +19,12 @@ connectDB(); // Connect to MongoDB
 
 const app = express();
 
-app.use(cors());
+const cors = require('cors');
+app.use(cors({
+  origin: 'https://kingproducts.netlify.app/', // Replace with your frontend domain
+  credentials: true, // If needed
+}));
+
 app.use(express.json()); // For parsing application/json
 
 // Use routes
