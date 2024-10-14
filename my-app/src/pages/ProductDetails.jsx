@@ -5,15 +5,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { fetchProductById } from '../api/ProductService';
 import { addItemToCart } from '../api/CartService';
 import '../styles/ProductDetails.css';
-import ReactImageMagnify from 'react-image-magnify';
+import ImageZoom from 'react-image-zoom'; // Import the react-image-zoom package
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext'; // Import the AuthContext
+import { useAuth } from '../context/AuthContext';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { dispatch } = useCart();
-  const { user } = useAuth(); // Get user from AuthContext
+  const { user } = useAuth();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,21 +36,20 @@ const ProductDetails = () => {
   const handleAddToCart = async () => {
     if (!product) return;
 
-    // Check if user is logged in
     if (!user) {
       alert('Please log in to add items to your cart.');
-      navigate('/login'); // Redirect to login if not logged in
+      navigate('/login');
       return;
     }
 
     try {
       const response = await addItemToCart({
-        userId: user.id, // Include userId
+        userId: user.id,
         productId: product._id,
         name: product.name,
         price: product.price,
         quantity: 1,
-        image: product.image, // Ensure the image is included here
+        image: product.image,
       });
 
       if (response && response.success) {
@@ -61,7 +60,7 @@ const ProductDetails = () => {
             name: product.name,
             price: product.price,
             quantity: 1,
-            image: product.image, // Include the image in the payload
+            image: product.image,
           },
         });
         alert('Product added to cart!');
@@ -87,24 +86,18 @@ const ProductDetails = () => {
     return <div className="error">{error}</div>;
   }
 
+  // Configuration for react-image-zoom
+  const zoomProps = {
+    width: 400,
+    height: 500,
+    zoomWidth: 500,
+    img: product.image, // Set product image as the zoomable image
+  };
+
   return (
     <div className="product-details">
       <div className="product-details-left">
-        <ReactImageMagnify
-          {...{
-            smallImage: {
-              alt: product.name,
-              isFluidWidth: true,
-              src: product.image,
-            },
-            largeImage: {
-              src: product.image,
-              width: 1200,
-              height: 1800,
-            },
-            enlargedImageContainerStyle: { background: '#fff', zIndex: '1500' },
-          }}
-        />
+        <ImageZoom {...zoomProps} /> {/* Use ImageZoom component here */}
       </div>
       <div className="product-details-right">
         <h1 className="product-title">{product.name}</h1>
