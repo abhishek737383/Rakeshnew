@@ -1,5 +1,3 @@
-// src/pages/ProductDetails.jsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchProductById } from '../api/ProductService';
@@ -86,6 +84,10 @@ const ProductDetails = () => {
     return <div className="error">{error}</div>;
   }
 
+  if (!product) {
+    return <div className="error">Product not found.</div>;
+  }
+
   // Configuration for react-image-zoom
   const zoomProps = {
     width: 400,
@@ -97,7 +99,11 @@ const ProductDetails = () => {
   return (
     <div className="product-details">
       <div className="product-details-left">
-        <ImageZoom {...zoomProps} /> {/* Use ImageZoom component here */}
+        {product.image ? (
+          <ImageZoom {...zoomProps} />
+        ) : (
+          <p>No image available</p>
+        )}
       </div>
       <div className="product-details-right">
         <h1 className="product-title">{product.name}</h1>
