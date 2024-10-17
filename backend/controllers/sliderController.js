@@ -1,39 +1,42 @@
+const cloudinary = require('../config/cloudinaryConfig');
 const Slider = require('../models/sliderModel');
-const path = require('path');
-const fs = require('fs');
 
-// Upload slider image
+// Upload slider image to Cloudinary
 exports.uploadImage = async (req, res) => {
-  const { file } = req;
-  if (!file) return res.status(400).json({ message: 'No file uploaded' });
-
-  const imageUrl = `/uploads/sliders/${file.filename}`;  // Use slider folder path
-  const newSlider = new Slider({ imageUrl });
-
   try {
+    // Upload the image to Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path);
+
+    // Store both the image URL and the Cloudinary public ID
+    const newSlider = new Slider({
+      imageUrl: result.secure_url,
+      publicId: result.public_id  // Store the public ID
+    });
+
     await newSlider.save();
     res.status(201).json({ message: 'Image uploaded successfully', slider: newSlider });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
 // Delete slider image
 exports.deleteImage = async (req, res) => {
-  const { id } = req.params;
   try {
+    const { id } = req.params;
+
+    // Find the slider image in the database
     const slider = await Slider.findById(id);
     if (!slider) return res.status(404).json({ message: 'Image not found' });
 
-    const imagePath = path.join(__dirname, '../uploads/sliders', path.basename(slider.imageUrl));  // Adjusted to match slider image path
-    fs.unlink(imagePath, (err) => {
-      if (err) throw err;
-    });
+    // Delete the image from Cloudinary using the stored public ID
+    await cloudinary.uploader.destroy(slider.publicId);
 
+    // Delete the slider record from the database
     await Slider.findByIdAndDelete(id);
     res.status(200).json({ message: 'Image deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -42,7 +45,7 @@ exports.getAllImages = async (req, res) => {
   try {
     const sliders = await Slider.find();
     res.status(200).json(sliders);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
