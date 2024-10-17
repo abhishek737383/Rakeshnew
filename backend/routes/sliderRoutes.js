@@ -5,7 +5,7 @@ const uploadSliderNoLimit = require('../middleware/uploadSliderNoLimit');
 const router = express.Router();
 
 // Routes
-router.post('/upload', uploadSliderNoLimit.single('sliderImage'), uploadImage);
+router.post('/uploads', uploadSliderNoLimit.single('sliderImage'), uploadImage);
 router.delete('/:id', deleteImage);
 router.get('/', getAllImages);
 
