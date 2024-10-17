@@ -8,19 +8,10 @@ exports.uploadImage = async (req, res) => {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    // Upload image to Cloudinary from buffer
-    const result = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream((error, result) => {
-        if (error) reject(error);
-        else resolve(result);
-      });
-      uploadStream.end(req.file.buffer);
-    });
-
-    // Save image details in the database
+    const result = await cloudinary.uploader.upload(req.file.path);
     const newSlider = new Slider({
       imageUrl: result.secure_url,
-      publicId: result.public_id, // Save publicId for future deletions
+      publicId: result.public_id, // Make sure to save publicId for deletion later
     });
     await newSlider.save();
 
@@ -29,6 +20,7 @@ exports.uploadImage = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
 
 // Delete image from Cloudinary and the database
 exports.deleteImage = async (req, res) => {
