@@ -1,22 +1,36 @@
 const cloudinary = require('../config/cloudinaryConfig');
 const Slider = require('../models/sliderModel');
 
-// Upload slider image to Cloudinary
-exports.uploadImage = async (req, res) => {
+const uploadImage = async (req, res) => {
   try {
-    // Upload the image to Cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
+    // Check if the file exists
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
 
-    // Store both the image URL and the Cloudinary public ID
-    const newSlider = new Slider({
-      imageUrl: result.secure_url,
-      publicId: result.public_id  // Store the public ID
-    });
+    // Upload image to Cloudinary using the buffer from memory storage
+    const result = await cloudinary.uploader.upload_stream(
+      {
+        resource_type: 'auto',
+      },
+      async (error, result) => {
+        if (error) {
+          return res.status(500).json({ message: 'Cloudinary upload failed', error });
+        }
 
-    await newSlider.save();
-    res.status(201).json({ message: 'Image uploaded successfully', slider: newSlider });
+        // Save the image URL to the database
+        const newSlider = new Slider({ imageUrl: result.secure_url });
+        await newSlider.save();
+
+        return res.status(201).json({ message: 'Image uploaded successfully', slider: newSlider });
+      }
+    );
+
+    // Pipe the file buffer to the Cloudinary upload stream
+    req.file.buffer.pipe(result);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+    console.error('Error uploading slider image:', error);
+    return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
