@@ -1,6 +1,5 @@
-const cloudinary = require('../config/cloudinaryConfig');
+const cloudinary = require('../config/cloudinaryConfig'); // Ensure this config file is correct
 const Slider = require('../models/sliderModel');
-
 
 exports.uploadImage = async (req, res) => {
   try {
@@ -9,7 +8,10 @@ exports.uploadImage = async (req, res) => {
     }
 
     const result = await cloudinary.uploader.upload(req.file.path);
-    const newSlider = new Slider({ imageUrl: result.secure_url });
+    const newSlider = new Slider({
+      imageUrl: result.secure_url,
+      publicId: result.public_id, // Make sure to save publicId for deletion later
+    });
     await newSlider.save();
 
     res.status(201).json({ message: 'Image uploaded successfully', slider: newSlider });
@@ -18,7 +20,6 @@ exports.uploadImage = async (req, res) => {
   }
 };
 
-// Delete slider image
 exports.deleteImage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -38,7 +39,6 @@ exports.deleteImage = async (req, res) => {
   }
 };
 
-// Get all slider images
 exports.getAllImages = async (req, res) => {
   try {
     const sliders = await Slider.find();

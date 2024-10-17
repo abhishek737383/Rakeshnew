@@ -1,10 +1,6 @@
 const multer = require('multer');
 
-// Set up multer for in-memory storage
-const storage = multer.memoryStorage();
-
+const storage = multer.memoryStorage(); // Use memory storage
 const uploadSliderNoLimit = multer({ storage });
-
-// No need for a delete function as we're not storing files locally anymore
 
 module.exports = uploadSliderNoLimit;
