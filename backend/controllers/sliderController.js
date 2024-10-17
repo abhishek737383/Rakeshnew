@@ -1,16 +1,26 @@
-const cloudinary = require('../config/cloudinaryConfig'); // Ensure this config file is correct
+const cloudinary = require('../config/cloudinaryConfig');
 const Slider = require('../models/sliderModel');
 
+// Upload image to Cloudinary and save to the database
 exports.uploadImage = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const result = await cloudinary.uploader.upload(req.file.path);
+    // Upload image to Cloudinary from buffer
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream((error, result) => {
+        if (error) reject(error);
+        else resolve(result);
+      });
+      uploadStream.end(req.file.buffer);
+    });
+
+    // Save image details in the database
     const newSlider = new Slider({
       imageUrl: result.secure_url,
-      publicId: result.public_id, // Make sure to save publicId for deletion later
+      publicId: result.public_id, // Save publicId for future deletions
     });
     await newSlider.save();
 
@@ -20,25 +30,30 @@ exports.uploadImage = async (req, res) => {
   }
 };
 
+// Delete image from Cloudinary and the database
 exports.deleteImage = async (req, res) => {
   try {
     const { id } = req.params;
 
     // Find the slider image in the database
     const slider = await Slider.findById(id);
-    if (!slider) return res.status(404).json({ message: 'Image not found' });
+    if (!slider) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
 
-    // Delete the image from Cloudinary using the stored public ID
+    // Delete the image from Cloudinary
     await cloudinary.uploader.destroy(slider.publicId);
 
-    // Delete the slider record from the database
+    // Delete the record from the database
     await Slider.findByIdAndDelete(id);
+
     res.status(200).json({ message: 'Image deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
+// Fetch all slider images from the database
 exports.getAllImages = async (req, res) => {
   try {
     const sliders = await Slider.find();
