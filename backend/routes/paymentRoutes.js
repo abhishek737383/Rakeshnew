@@ -3,8 +3,10 @@ const {
   uploadPaymentDetails,
   getPayments,
   deletePayment,
+  updatePayment,
+  getPaymentById,
 } = require('../controllers/paymentController');
-const uploadPayment = require('../middleware/uploadPaymentNoLimit'); // Use the original uploadPayment middleware
+const uploadPayment = require('../middleware/uploadPayment'); // Use the upload middleware
 
 const router = express.Router();
 
@@ -16,5 +18,11 @@ router.get('/all', getPayments);
 
 // Route to delete a payment record
 router.delete('/:id', deletePayment);
+
+// Route to get a payment by ID
+router.get('/:id', getPaymentById);
+
+// Route to update payment details
+router.put('/:id', uploadPayment.single('screenshot'), updatePayment); // Using the uploadPayment middleware
 
 module.exports = router;

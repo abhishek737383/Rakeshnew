@@ -3,32 +3,25 @@ const Payment = require('../models/Payment');
 
 // Upload payment details (with screenshot to Cloudinary)
 exports.uploadPaymentDetails = async (req, res) => {
-  try {
-    // Destructure the relevant fields from req.body
-    const { user, transactionId, upiId, qrCode } = req.body;
+  console.log('Request received:', req.body); // Log request body
+  console.log('File uploaded:', req.file); // Log uploaded file
 
-    // Check if the file is present
+  try {
+    const { user, transactionId, upiId } = req.body; // Destructure fields from req.body
+
+    // Check if screenshot is present
     if (!req.file) {
-      return res.status(400).json({ message: 'Screenshot is required.' });
+      return res.status(400).json({ message: 'Payment screenshot is required.' });
     }
 
-    // Upload the screenshot to Cloudinary using the buffer
-    const result = await cloudinary.uploader.upload_stream(
-      { resource_type: 'image' }, // Specify resource type if necessary
-      (error, result) => {
-        if (error) {
-          console.error('Error uploading to Cloudinary:', error);
-          return res.status(500).json({ message: 'Error uploading screenshot to Cloudinary', error: error.message });
-        }
-      }
-    ).end(req.file.buffer); // Use the buffer instead of path
+    // Upload the screenshot to Cloudinary
+    const result = await cloudinary.uploader.upload_stream(req.file.buffer);
 
     // Create the payment object
     const payment = new Payment({
-      user,
+      user, // User's name
       transactionId,
       upiId,
-      qrCode,
       screenshot: result.secure_url, // Save the Cloudinary URL in the database
     });
 
@@ -40,7 +33,7 @@ exports.uploadPaymentDetails = async (req, res) => {
       payment,
     });
   } catch (error) {
-    console.error('Error uploading payment details:', error);
+    console.error('Error uploading payment details:', error.message);
     res.status(500).json({ message: 'Error uploading payment details', error: error.message });
   }
 };
@@ -92,18 +85,17 @@ exports.getPaymentById = async (req, res) => {
 // Update payment details
 exports.updatePayment = async (req, res) => {
   try {
-    const { user, transactionId, upiId, qrCode } = req.body; // Fields to update
+    const { user, transactionId, upiId } = req.body; // Fields to update
     const payment = await Payment.findById(req.params.id);
 
     if (payment) {
       payment.user = user;
       payment.transactionId = transactionId;
       payment.upiId = upiId;
-      payment.qrCode = qrCode;
 
       if (req.file) {
         // If there's a new screenshot, upload it to Cloudinary
-        const result = await cloudinary.uploader.upload(req.file.path);
+        const result = await cloudinary.uploader.upload_stream(req.file.buffer);
         payment.screenshot = result.secure_url; // Update the Cloudinary URL
       }
 
