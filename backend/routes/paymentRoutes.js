@@ -6,7 +6,7 @@ const {
   updatePayment,
   getPaymentById,
 } = require('../controllers/paymentController');
-const uploadPayment = require('../middleware/uploadPayment'); // Use the upload middleware
+const uploadPayment = require('../middleware/uploadPaymentNoLimit'); // Use the upload middleware
 
 const router = express.Router();
 
