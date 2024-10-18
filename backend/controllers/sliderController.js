@@ -36,7 +36,7 @@ exports.uploadImage = async (req, res) => {
   }
 };
 
-// Delete image from Cloudinary and the database
+// Delete image from Cloudinary or local filesystem and the database
 exports.deleteImage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -47,8 +47,19 @@ exports.deleteImage = async (req, res) => {
       return res.status(404).json({ message: 'Image not found' });
     }
 
-    // Delete the image from Cloudinary
-    await cloudinary.uploader.destroy(slider.publicId);
+    if (slider.publicId) {
+      // If the image has a publicId, it's a Cloudinary image, delete it from Cloudinary
+      await cloudinary.uploader.destroy(slider.publicId);
+    } else {
+      // If no publicId, it may be a local file, so try deleting from the local filesystem
+      const localFilePath = path.join(__dirname, '..', 'uploads', slider.imageUrl); 
+
+      if (fs.existsSync(localFilePath)) {
+        fs.unlinkSync(localFilePath); // Delete the local file
+      } else {
+        console.log('File not found locally');
+      }
+    }
 
     // Delete the record from the database
     await Slider.findByIdAndDelete(id);
@@ -58,7 +69,6 @@ exports.deleteImage = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
-
 // Fetch all slider images from the database
 exports.getAllImages = async (req, res) => {
   try {
