@@ -5,14 +5,27 @@ const Payment = require('../models/Payment');
 exports.uploadPaymentDetails = async (req, res) => {
   try {
     // Destructure the relevant fields from req.body
-    const { user, transactionId, upiId, qrCode } = req.body; // Ensure these fields are sent in the request
+    const { user, transactionId, upiId, qrCode } = req.body;
 
-    // Upload the screenshot to Cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path);
+    // Check if the file is present
+    if (!req.file) {
+      return res.status(400).json({ message: 'Screenshot is required.' });
+    }
+
+    // Upload the screenshot to Cloudinary using the buffer
+    const result = await cloudinary.uploader.upload_stream(
+      { resource_type: 'image' }, // Specify resource type if necessary
+      (error, result) => {
+        if (error) {
+          console.error('Error uploading to Cloudinary:', error);
+          return res.status(500).json({ message: 'Error uploading screenshot to Cloudinary', error: error.message });
+        }
+      }
+    ).end(req.file.buffer); // Use the buffer instead of path
 
     // Create the payment object
     const payment = new Payment({
-      user, // User's name
+      user,
       transactionId,
       upiId,
       qrCode,
@@ -27,7 +40,7 @@ exports.uploadPaymentDetails = async (req, res) => {
       payment,
     });
   } catch (error) {
-    console.error('Error uploading payment details:', error.message);
+    console.error('Error uploading payment details:', error);
     res.status(500).json({ message: 'Error uploading payment details', error: error.message });
   }
 };
