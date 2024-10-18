@@ -12,7 +12,6 @@ exports.getBillDetails = async (req, res) => {
   }
 };
 
-// Upload bill details with QR code
 exports.uploadBillDetails = async (req, res) => {
   try {
     const { upiId } = req.body;
@@ -20,12 +19,8 @@ exports.uploadBillDetails = async (req, res) => {
     // Check if a file (QR code) is uploaded
     let qrCodeUrl = null;
     if (req.file) {
-      const result = await cloudinary.uploader.upload_stream({ folder: 'payment_qrcodes' }, (error, result) => {
-        if (error) {
-          throw new Error('Error uploading QR code to Cloudinary');
-        }
-        return result;
-      }).end(req.file.buffer);  // Use the file buffer for memory storage
+      // Upload the QR code to Cloudinary using a promise
+      const result = await cloudinary.uploader.upload_stream({ folder: 'payment_qrcodes' }).end(req.file.buffer);
       qrCodeUrl = result.secure_url;  // Cloudinary URL
     }
 
