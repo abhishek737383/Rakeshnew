@@ -1,6 +1,7 @@
 const cloudinary = require('../config/cloudinaryConfig');
 const Slider = require('../models/sliderModel');
 const path = require('path'); // Ensure the path module is imported
+const fs = require('fs'); // Import the fs (file system) module
 // Upload image to Cloudinary and save to the database
 exports.uploadImage = async (req, res) => {
   try {
