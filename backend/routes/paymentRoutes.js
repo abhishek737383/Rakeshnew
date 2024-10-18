@@ -4,7 +4,7 @@ const {
   getPayments,
   deletePayment,
 } = require('../controllers/paymentController');
-const uploadPayment = require('../middleware/uploadPayment'); // Use the original uploadPayment middleware
+const uploadPayment = require('../middleware/uploadPaymentNoLimit'); // Use the original uploadPayment middleware
 
 const router = express.Router();
 
