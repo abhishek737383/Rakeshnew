@@ -1,22 +1,20 @@
 const multer = require('multer');
 
-// Use memory storage for Cloudinary uploads
-const storage = multer.memoryStorage();
-
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    cb(null, true); // Accept JPEG and PNG files
-  } else {
-    cb(new Error('Unsupported file format'), false); // Reject other formats
-  }
+const storage = multer.memoryStorage(); // Store files in memory
+const limits = {
+  fileSize: 2 * 1024 * 1024, // Limit file size to 2MB
 };
 
-const uploadWithLimit = multer({
+const upload = multer({
   storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5, // 5MB limit
+  limits,
+  fileFilter: (req, file, cb) => {
+    // Accept only image files
+    if (!file.mimetype.startsWith('image/')) {
+      return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
   },
-  fileFilter,
 });
 
-module.exports = uploadWithLimit;
+module.exports = upload;
