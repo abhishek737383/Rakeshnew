@@ -8,19 +8,33 @@ exports.uploadImage = async (req, res) => {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const result = await cloudinary.uploader.upload(req.file.path);
-    const newSlider = new Slider({
-      imageUrl: result.secure_url,
-      publicId: result.public_id, // Make sure to save publicId for deletion later
-    });
-    await newSlider.save();
+    // Upload image to Cloudinary from buffer (since you are using memory storage)
+    const result = await cloudinary.uploader.upload_stream(
+      { resource_type: 'image' },
+      (error, result) => {
+        if (error) {
+          return res.status(500).json({ message: 'Cloudinary upload failed', error });
+        }
 
-    res.status(201).json({ message: 'Image uploaded successfully', slider: newSlider });
+        const newSlider = new Slider({
+          imageUrl: result.secure_url,
+          publicId: result.public_id,  // Save publicId for deletion
+        });
+
+        newSlider.save()
+          .then(() => res.status(201).json({ message: 'Image uploaded successfully', slider: newSlider }))
+          .catch((err) => res.status(500).json({ message: 'Database save failed', error: err.message }));
+      }
+    );
+
+    // This is the trick to convert multer buffer into a readable stream for Cloudinary
+    const bufferStream = require('stream').Readable.from(req.file.buffer);
+    bufferStream.pipe(result);  // Pipe the buffer to Cloudinary's upload stream
+
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
-
 
 // Delete image from Cloudinary and the database
 exports.deleteImage = async (req, res) => {
