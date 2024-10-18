@@ -1,6 +1,6 @@
 const cloudinary = require('../config/cloudinaryConfig');
 const Slider = require('../models/sliderModel');
-
+const path = require('path'); // Ensure the path module is imported
 // Upload image to Cloudinary and save to the database
 exports.uploadImage = async (req, res) => {
   try {
@@ -52,12 +52,14 @@ exports.deleteImage = async (req, res) => {
       await cloudinary.uploader.destroy(slider.publicId);
     } else {
       // If no publicId, it may be a local file, so try deleting from the local filesystem
-      const localFilePath = path.join(__dirname, '..', 'uploads', slider.imageUrl); 
+      const localFilePath = path.join(__dirname, '..', 'uploads', slider.imageUrl); // Correct the path to the local file
 
+      // Check if the file exists locally before attempting to delete
       if (fs.existsSync(localFilePath)) {
         fs.unlinkSync(localFilePath); // Delete the local file
+        console.log(`Local file ${localFilePath} deleted successfully`);
       } else {
-        console.log('File not found locally');
+        console.log(`Local file ${localFilePath} not found`);
       }
     }
 
@@ -66,6 +68,7 @@ exports.deleteImage = async (req, res) => {
 
     res.status(200).json({ message: 'Image deleted successfully' });
   } catch (error) {
+    console.error('Error deleting image:', error); // Log the exact error for debugging
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
