@@ -1,0 +1,24 @@
+.frontend-layout {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    min-height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent overflow */
+    background-color: #f4f4f9; /* Light background color */
+  }
+  
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column; /* Stack navbar items vertically on small screens */
+      align-items: flex-start; /* Align items to the left */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .navbar {
+      font-size: 14px; /* Smaller font size for very small screens */
+    }
+  
+  }
+  

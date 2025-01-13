@@ -1,0 +1,205 @@
+/* Product list grid layout */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid layout */
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Product card styling */
+.product-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+
+/* Hover effects */
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Product image styling */
+.product-card img {
+  width: 100%;
+  height: 220px; /* Uniform height for desktop and tablet */
+  object-fit: cover; /* Cover to ensure the image fills the area while maintaining aspect ratio */
+  transition: opacity 0.3s ease;
+  border-bottom: 1px solid #e0e0e0; /* Add a subtle divider between image and content */
+}
+
+/* Hover effect on image */
+.product-card:hover img {
+  opacity: 0.9;
+}
+
+/* Product name */
+.product-card h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 15px 0 10px;
+  text-align: center;
+}
+
+/* Product price */
+.product-card p {
+  font-size: 1.2rem;
+  color: #777;
+  margin-bottom: 15px;
+}
+
+/* Shop Now button styling */
+.product-card button {
+  background-color: #D83A56; /* Premium vibrant pink-red color */
+  color: white;
+  border: none;
+  border-radius: 50px; /* Rounded for a more modern look */
+  padding: 12px 30px; /* More padding for a premium feel */
+  font-size: 1.1rem; /* Slightly larger font size */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for a subtle 3D effect */
+}
+
+/* Hover effect on button */
+.product-card button:hover {
+  background-color: #B22C46; /* Darker shade for hover effect */
+  transform: translateY(-3px); /* Lift button on hover for an interactive feel */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover for depth */
+}
+
+/* Active button effect */
+.product-card button:active {
+  background-color: #991F37; /* Even darker shade for active state */
+  transform: translateY(0); /* Bring the button back to its original position */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Softer shadow when clicked */
+}
+
+/* Container for search and category filter */
+
+.search-category-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  padding: 10px 20px;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Search Box */
+.search-box input {
+  width: 100%;
+  max-width: 480px;
+  padding: 15px 20px;
+  border: 2px solid #ff4081; /* Premium color choice */
+  border-radius: 40px;
+  font-size: 1.2rem;
+  outline: none;
+  background-color: #f5f5f5; /* Subtle background color */
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-box input:focus {
+  border-color: #ff1744; /* Darker premium shade on focus */
+  background-color: #fff;
+  box-shadow: 0 8px 20px rgba(255, 23, 68, 0.3);
+}
+
+/* Category Filter */
+.category-filter {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 10px;
+}
+
+.category-filter button {
+  padding: 12px 24px;
+  background-color: #6200ea; /* Premium color */
+  color: white;
+  border: none;
+  border-radius: 40px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.4s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.category-filter button:hover {
+  background-color: #3700b3; /* Darker hover effect */
+  transform: translateY(-4px); /* Subtle lift on hover */
+}
+
+.category-filter button.active {
+  background-color: #ff4081; /* Highlight active button with a different color */
+  box-shadow: 0 8px 20px rgba(255, 64, 129, 0.3);
+}
+
+
+/* Responsive styling for mobile */
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: 1fr; /* Full width grid for mobile */
+  }
+
+  .product-card img {
+    height: 180px; /* Reduced height for mobile view */
+    object-fit: cover; /* Maintain cover behavior for better aesthetics */
+  }
+
+  .product-card h2 {
+    font-size: 1.25rem; /* Slightly smaller font for mobile */
+  }
+
+  .product-card p {
+    font-size: 1rem;
+  }
+
+  .product-card button {
+    font-size: 0.9rem;
+    padding: 8px 16px; /* Adjust button size for mobile */
+  }
+  .search-category-container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+  }
+
+  .search-box input {
+    width: 90%;
+    max-width: 100%;
+    font-size: 1rem;
+    padding: 12px 18px;
+  }
+
+  .category-filter {
+    justify-content: center;
+    gap: 10px;
+  }
+}
+/* Responsive styling */
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: 1fr; /* Full width for mobile */
+  }
+
+  .product-card img {
+    height: auto; /* Allow the image to adjust its height automatically */
+    max-height: 300px; /* Limit the max height to ensure the image doesn't take too much space */
+    object-fit: contain; /* Make sure the whole image fits within the container */
+  }
+
+}

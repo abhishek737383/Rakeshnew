@@ -1,0 +1,139 @@
+/* Advanced Premium Navbar with Gradient and Glassmorphism */
+.admin-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(46, 58, 89, 0.85); /* Transparent base for glass effect */
+  backdrop-filter: blur(10px); /* Blur background for glassmorphism */
+  color: #f0f0f0; /* Light text color for contrast */
+  padding: 15px 30px;
+  border-bottom: 2px solid #ff6f6f; /* Bright red border for premium look */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Deep shadow for 3D effect */
+  border-radius: 12px; /* Rounded corners for a premium, smooth feel */
+}
+
+/* Navbar Toggle with Glowing Effect */
+.navbar-toggle {
+  background: none;
+  border: none;
+  color: #f0f0f0;
+  font-size: 26px;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-toggle:hover {
+  color: #ff6f6f; /* Bright red color on hover */
+  transform: scale(1.1); /* Scale effect on hover */
+  box-shadow: 0 0 10px rgba(255, 111, 111, 0.7); /* Glowing red hover effect */
+}
+/* Advanced Premium Search Input */
+.search-input {
+  border: none;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)); /* Subtle gradient for depth */
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 30px; /* Larger, smoother corner radius */
+  width: 250px;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 0 5px rgba(255, 255, 255, 0.1); /* Outer shadow for depth, inner shadow for softness */
+  font-size: 16px; /* Larger font for better readability */
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Enhanced Focus State */
+.search-input:focus {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1)); /* Slightly brighter background on focus */
+  box-shadow: 0 6px 20px rgba(255, 111, 111, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.3); /* Bright focus shadow */
+  color: #fff;
+  backdrop-filter: blur(5px); /* Light blur effect for glassy look */
+}
+
+/* Placeholder Styling for Premium Look */
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* Semi-transparent white placeholder */
+  font-style: italic; /* Italic for premium style */
+  transition: color 0.3s ease;
+}
+
+.search-input:focus::placeholder {
+  color: rgba(255, 255, 255, 0.9); /* Brighter placeholder on focus */
+}
+
+/* Navbar Right-Side Menu with Hover Transitions */
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right a {
+  color: #f0f0f0;
+  text-decoration: none;
+  margin-left: 30px;
+  font-size: 18px;
+  font-weight: 600; /* Bolder font for premium feel */
+  transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navbar-right a:hover {
+  color: #ff6f6f;
+  transform: translateY(-3px); /* Enhanced lift effect */
+  text-shadow: 0 4px 8px rgba(255, 111, 111, 0.7); /* Glowing shadow effect */
+}
+
+/* Logout Button with 3D Effect and Advanced Transitions */
+.logout-button {
+  background: linear-gradient(135deg, #ff6f6f, #ff906f); /* Gradient red background */
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 30px; /* More rounded for a premium feel */
+  cursor: pointer;
+  margin-left: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* 3D-style shadow */
+}
+
+.logout-button:hover {
+  background: linear-gradient(135deg, #e55c5c, #e5705c); /* Slightly darker red on hover */
+  box-shadow: 0 10px 30px rgba(255, 111, 111, 0.5); /* Enhanced 3D shadow */
+  transform: translateY(-2px); /* Lift button on hover */
+}
+
+/* Media Query for Mobile Responsiveness */
+@media (max-width: 768px) {
+  .admin-navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+    border-radius: 0; /* Remove border-radius for mobile */
+  }
+
+  /* Full-width search input on mobile */
+  .search-input {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  /* Stack right-side items vertically */
+  .navbar-right {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .navbar-right a {
+    margin-left: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .logout-button {
+    width: 50%; /* Full-width button on mobile */
+    text-align: center;
+    margin-top: 10px;
+  }
+}
