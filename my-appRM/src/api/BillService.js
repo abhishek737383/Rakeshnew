@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Set the base URL for the API
-const API_URL = 'https://newsite-1caa.onrender.com/api/bills'; // This should be correct
+const API_URL = 'https://rakeshnew.onrender.com/api/bills'; // This should be correct
 
 
 export const fetchBillDetails = async () => {

@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { createOrder } from '../api/OrderService';
 import '../styles/PaymentPage.css';
 
-const BASE_URL = 'https://newsite-1caa.onrender.com'; // Live server URL
+const BASE_URL = 'https://rakeshnew.onrender.com'; // Live server URL
 
 const PaymentPage = () => {
   const navigate = useNavigate();

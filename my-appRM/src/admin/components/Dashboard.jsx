@@ -14,7 +14,7 @@ const AdminPanel = () => {
     setError('');
 
     try {
-      const response = await axios.get(`https://newsite-1caa.onrender.com/api/admin/users?page=${page}&limit=10`);
+      const response = await axios.get(`https://rakeshnew.onrender.com/api/admin/users?page=${page}&limit=10`);
       setUsers(response.data.users);
       setTotalPages(response.data.totalPages);
       setCurrentPage(response.data.currentPage);

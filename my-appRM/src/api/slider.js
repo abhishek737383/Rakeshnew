@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://newsite-1caa.onrender.com/api/slider';
+const API_URL = 'https://rakeshnew.onrender.com/api/slider';
 
 // Function to upload a slider image
 export const uploadSliderImage = async (imageFile) => {

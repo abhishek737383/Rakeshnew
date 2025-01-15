@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://newsite-1caa.onrender.com/api/products';
+const API_URL = 'https://rakeshnew.onrender.com/api/products';
 
 // Error handler function
 const handleError = (error) => {

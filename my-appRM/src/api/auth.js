@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL
-const BASE_URL = 'https://newsite-1caa.onrender.com/api';
+const BASE_URL = 'https://rakeshnew.onrender.com/api';
 
 // Signup Function
 export const signupUser = async (name, email, phone, password) => {
